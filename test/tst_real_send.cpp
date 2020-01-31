@@ -11,7 +11,7 @@
 namespace
 {
 const std::string kStandaloneName = "Nightowl-IPC";
-const std::string kDVRName = "Nightowl-IPC";
+const std::string kDVRName = "Nightowl-DVR";
 const std::string kUid = "B7V2GYDZXT5KF15K111A";
 const std::string kStandaloneDeviceType = "standaloneIpCamera";
 const std::string kDVRType = "videoRecorder";
@@ -56,6 +56,14 @@ TEST_F(DeviceRealPushTest, DVRPushHuman)
 {
 	auto eventTime = static_cast<long int>(std::time(nullptr));
 	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRHuman, 
+		kUid, eventTime, kDVRType, kDVRName);
+	EXPECT_EQ(result, 0);
+}
+
+TEST_F(DeviceRealPushTest, DVRPushMoved)
+{
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMoved,
 		kUid, eventTime, kDVRType, kDVRName);
 	EXPECT_EQ(result, 0);
 }

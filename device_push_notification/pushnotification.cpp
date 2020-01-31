@@ -16,14 +16,17 @@ const std::string kPushFormatOneArgs = "{\"event_type\":\"%s\",\"arg1\":\"%s\"}"
 const std::string kPushFormatTwoArgs = "{\"event_type\":\"%s\",\"arg1\":\"%s\", \"arg2\":\"%s\"}";
 const std::string kStandaloneMotionName = "E_SA_MOTION";
 const std::string kStandaloneHumanName = "E_SA_HUMAN";
+const std::string kStandaloneMovedName = "E_SA_DEVICE_MOVED";
 const std::string kDVRMotionName = "E_DVR_MOTION";
 const std::string kDVRHumanName = "E_DVR_HUMAN";
+const std::string kDVRMovedName = "E_DVR_DEVICE_MOVED";
 const int kNoSender = 999;
 
 enum class EventType
 {
 	kMotion = 1,
-	kHuman = 30302
+	kHuman = 30302,
+	kDeviceMoved = 30315
 };
 
 std::string getURI(std::string scheme, std::string host, std::string path)
@@ -33,17 +36,21 @@ std::string getURI(std::string scheme, std::string host, std::string path)
 	return ss.str();
 }
 
-std::string getMessageName(nightowl::NOP_Push_Notification::PushNotification::EventKey eventType)
+std::string getEventName(nightowl::NOP_Push_Notification::PushNotification::EventKey eventType)
 {
 	switch (eventType) {
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneMotion:
 		return kStandaloneMotionName;
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneHuman:
 		return kStandaloneHumanName;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneMoved:
+		return kStandaloneMovedName;
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMotion:
 		return kDVRMotionName;
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRHuman:
 		return kDVRHumanName;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMoved:
+		return kDVRMovedName;
 	default:
 		break;
 	}
@@ -61,6 +68,10 @@ int getEventType(nightowl::NOP_Push_Notification::PushNotification::EventKey eve
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRHuman:
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneHuman:
 		result = EventType::kHuman;
+		break;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMoved:
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneMoved:
+		result = EventType::kDeviceMoved;
 		break;
 	default:
 		break;
@@ -137,7 +148,7 @@ int PushNotification::sendPushNotication(EventKey eventKey, const std::string& u
 		return kNoSender;
 	}
 	
-	auto eventName = getMessageName(eventKey);
+	auto eventName = getEventName(eventKey);
 	int length = kPushFormatOneArgs.length() + eventName.length() + deviceName.length();
 	std::unique_ptr<char[]> payload(new char[length]);
 	snprintf(payload.get(), length, kPushFormatOneArgs.c_str(), eventName.c_str(), deviceName.c_str());
@@ -152,7 +163,7 @@ int PushNotification::sendPushNotication(EventKey eventKey, const std::string& u
 		return kNoSender;
 	}
 
-	auto eventName = getMessageName(eventKey);
+	auto eventName = getEventName(eventKey);
 	int length = kPushFormatOneArgs.length() + eventName.length() + deviceName.length() + channelName.length();
 	std::unique_ptr<char[]> payload(new char[length]);
 	snprintf(payload.get(), length, kPushFormatTwoArgs.c_str(), eventName.c_str(), deviceName.c_str(), channelName.c_str());

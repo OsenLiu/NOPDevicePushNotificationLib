@@ -19,8 +19,10 @@ public:
 	enum class EventKey {
 		kStandaloneMotion,
 		kStandaloneHuman,
+		kStandaloneMoved,
 		kDVRMotion,
-		kDVRHuman
+		kDVRHuman,
+		kDVRMoved
 	};
 
 public:

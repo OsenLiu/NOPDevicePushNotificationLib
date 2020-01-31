@@ -10,8 +10,10 @@ The project provides curl sender to test. You also can use customized sender for
 | ----- |
 | kStandaloneMotion|
 | kStandaloneHuman |
+| kStandaloneMoved |
 | kDVRMotion |
 | kDVRHuman |
+| kDVRMoved |
 
 ## Usage
 ```c++
