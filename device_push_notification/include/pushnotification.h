@@ -44,11 +44,14 @@ public:
 	int sendPushNotication(EventKey eventKey, const std::string& uid, long eventTime, const std::string& deviceType, const std::string& deviceName);
 
 	// The DVR/NVR/WNVR device sends push notification with event key, uid, event time, device type, device name, and channel name.
-	int sendPushNotication(EventKey eventKey, const std::string& uid, long eventTime, const std::string& deviceType, const std::string& deviceName, const std::string& channelName);
+	int sendPushNotication(EventKey eventKey, const std::string& uid, long eventTime, const std::string& deviceType, const std::string& deviceName, int channel, const std::string& channelName);
 
 private:
 	int send(nightowl::NOP_Push_Notification::PushNotification::EventKey eventKey, const std::string& uid, 
 		long eventTime, const std::string& deviceType, const std::unique_ptr<char[]>& payload, int payloadLength);
+
+	int send(nightowl::NOP_Push_Notification::PushNotification::EventKey eventKey, const std::string& uid,
+		long eventTime, const std::string& deviceType, int channel, const std::unique_ptr<char[]>& payload, int payloadLength);
 
 private:
 	std::shared_ptr<IHttpSender> _sender {};

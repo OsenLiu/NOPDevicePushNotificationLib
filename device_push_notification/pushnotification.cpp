@@ -12,14 +12,14 @@ const std::string kURIPath = "/tpns";
 const std::string kHost = "notifications.no-protect.com";
 const std::string kStandalonePushURLFormat = "%s?cmd=event&uid=%s&event_time=%ld&event_type=%d&dev_type=%s&customized_payload=%s";
 const std::string kDVRPushURLFormat = "%s?cmd=event&uid=%s&event_time=%ld&event_type=%d&dev_type=%s&channel=%d&customized_payload=%s";
-const std::string kPushFormatOneArgs = "{\"event_type\":\"%s\",\"arg1\":\"%s\"}";
-const std::string kPushFormatTwoArgs = "{\"event_type\":\"%s\",\"arg1\":\"%s\", \"arg2\":\"%s\"}";
+const std::string kPayloadFormat = "{\"event_type\":\"%s\",\"arg1\":\"%s\", \"arg2\":\"%s\", \"arg3\":\"%s\"}";
 const std::string kStandaloneMotionName = "E_SA_MOTION";
 const std::string kStandaloneHumanName = "E_SA_HUMAN";
 const std::string kStandaloneMovedName = "E_SA_DEVICE_MOVED";
 const std::string kDVRMotionName = "E_DVR_MOTION";
 const std::string kDVRHumanName = "E_DVR_HUMAN";
 const std::string kDVRMovedName = "E_DVR_DEVICE_MOVED";
+const char kEmptyString[] = "";
 const int kNoSender = 999;
 
 enum class EventType
@@ -149,26 +149,26 @@ int PushNotification::sendPushNotication(EventKey eventKey, const std::string& u
 	}
 	
 	auto eventName = getEventName(eventKey);
-	int length = kPushFormatOneArgs.length() + eventName.length() + deviceName.length();
+	int length = snprintf(0, 0, kPayloadFormat.c_str(), eventName.c_str(), kEmptyString, kEmptyString, kEmptyString) + 1;
 	std::unique_ptr<char[]> payload(new char[length]);
-	snprintf(payload.get(), length, kPushFormatOneArgs.c_str(), eventName.c_str(), deviceName.c_str());
+	snprintf(payload.get(), length, kPayloadFormat.c_str(), eventName.c_str(), kEmptyString, kEmptyString, kEmptyString);
 
 	return send(eventKey, uid, eventTime, deviceType, payload, length);
 }
 
 int PushNotification::sendPushNotication(EventKey eventKey, const std::string& uid, long eventTime, 
-	const std::string& deviceType, const std::string& deviceName, const std::string& channelName)
+	const std::string& deviceType, const std::string& deviceName, int channel, const std::string& channelName)
 {	
 	if (_sender == nullptr) {
 		return kNoSender;
 	}
 
 	auto eventName = getEventName(eventKey);
-	int length = kPushFormatOneArgs.length() + eventName.length() + deviceName.length() + channelName.length();
+	int length = snprintf(0, 0, kPayloadFormat.c_str(), eventName.c_str(), channelName.c_str(), kEmptyString, kEmptyString) + 1;
 	std::unique_ptr<char[]> payload(new char[length]);
-	snprintf(payload.get(), length, kPushFormatTwoArgs.c_str(), eventName.c_str(), deviceName.c_str(), channelName.c_str());
+	snprintf(payload.get(), length, kPayloadFormat.c_str(), eventName.c_str(), channelName.c_str(), kEmptyString, kEmptyString);
 
-	return send(eventKey, uid, eventTime, deviceType, payload, length);
+	return send(eventKey, uid, eventTime, deviceType, channel, payload, length);
 }
 
 int PushNotification::send(EventKey eventKey, const std::string& uid, long eventTime,
@@ -178,10 +178,27 @@ int PushNotification::send(EventKey eventKey, const std::string& uid, long event
 	auto payloadEncode = urlencode(payload64);
 
 	auto eventType = getEventType(eventKey);
-	int length = snprintf(0, 0, kStandalonePushURLFormat.c_str(), _uri.c_str(), uid.c_str(), eventTime, eventType, deviceType.c_str(), payloadEncode.c_str());
+	int length = snprintf(0, 0, kStandalonePushURLFormat.c_str(), _uri.c_str(), uid.c_str(), eventTime, eventType, deviceType.c_str(), payloadEncode.c_str()) + 1;
 	std::unique_ptr<char[]> buf(new char[length]);
 	snprintf(buf.get(), length, kStandalonePushURLFormat.c_str(), _uri.c_str(), uid.c_str(), eventTime,
 		getEventType(eventKey), deviceType.c_str(), payloadEncode.c_str());
+	if (_logger) {
+		_logger->log("Push URL: %s\n", buf.get());
+	}
+	return _sender->send(std::string(buf.get()));
+}
+
+int PushNotification::send(nightowl::NOP_Push_Notification::PushNotification::EventKey eventKey, const std::string& uid,
+	long eventTime, const std::string& deviceType, int channel, const std::unique_ptr<char[]>& payload, int payloadLength)
+{
+	auto payload64 = base64_encode(reinterpret_cast<const unsigned char*>(payload.get()), payloadLength);
+	auto payloadEncode = urlencode(payload64);
+
+	auto eventType = getEventType(eventKey);
+	int length = snprintf(0, 0, kDVRPushURLFormat.c_str(), _uri.c_str(), uid.c_str(), eventTime, eventType, deviceType.c_str(), channel, payloadEncode.c_str()) + 1;
+	std::unique_ptr<char[]> buf(new char[length]);
+	snprintf(buf.get(), length, kDVRPushURLFormat.c_str(), _uri.c_str(), uid.c_str(), eventTime,
+		getEventType(eventKey), deviceType.c_str(), channel, payloadEncode.c_str());
 	if (_logger) {
 		_logger->log("Push URL: %s\n", buf.get());
 	}
