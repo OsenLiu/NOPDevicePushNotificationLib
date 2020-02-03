@@ -36,8 +36,8 @@ add_executable(NOPPush.Test
 )
 
 include_directories(${CMAKE_SOURCE_DIR} 
-	${DevicePushNotification_SOURCE_DIR}/include 
-	${DefaultSender_SOURCE_DIR}/include
+	${DevicePushNotification_INCLUDE_DIRS}
+    ${DefaultSender_INCLUDE_DIRS}
 	${GTEST_INCLUDE_DIRS}
 )
 target_link_libraries(NOPPush.Test gtest_main gmock_main DevicePushNotificationLib DefaultSenderLib)
