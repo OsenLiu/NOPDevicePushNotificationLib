@@ -174,7 +174,7 @@ int PushNotification::sendPushNotication(EventKey eventKey, const std::string& u
 int PushNotification::send(EventKey eventKey, const std::string& uid, long eventTime,
 	const std::string& deviceType, const std::unique_ptr<char[]>& payload, int payloadLength)
 {
-	auto payload64 = base64_encode(reinterpret_cast<const unsigned char*>(payload.get()), payloadLength);
+	auto payload64 = base64_encode(std::string(payload.get()));
 	auto payloadEncode = urlencode(payload64);
 
 	auto eventType = getEventType(eventKey);
@@ -191,7 +191,7 @@ int PushNotification::send(EventKey eventKey, const std::string& uid, long event
 int PushNotification::send(nightowl::NOP_Push_Notification::PushNotification::EventKey eventKey, const std::string& uid,
 	long eventTime, const std::string& deviceType, int channel, const std::unique_ptr<char[]>& payload, int payloadLength)
 {
-	auto payload64 = base64_encode(reinterpret_cast<const unsigned char*>(payload.get()), payloadLength);
+	auto payload64 = base64_encode(std::string(payload.get()));
 	auto payloadEncode = urlencode(payload64);
 
 	auto eventType = getEventType(eventKey);
