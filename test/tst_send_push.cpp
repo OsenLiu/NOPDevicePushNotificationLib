@@ -43,7 +43,7 @@ TEST_F(DevicePushTest, StandaloneDevicePushMotion)
 	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
 	auto eventTime = static_cast<long int>(std::time(nullptr));
 	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneMotion, 
-		kUid, eventTime, kStandaloneDeviceType, kStandaloneName);
+		kUid, eventTime, kStandaloneDeviceType);
 	EXPECT_EQ(result, 0);
 }
 
@@ -52,7 +52,7 @@ TEST_F(DevicePushTest, StandaloneDevicePushHuman)
 	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
 	auto eventTime = static_cast<long int>(std::time(nullptr));
 	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneHuman,
-		kUid, eventTime, kStandaloneDeviceType, kStandaloneName);
+		kUid, eventTime, kStandaloneDeviceType);
 	EXPECT_EQ(result, 0);
 }
 
@@ -61,7 +61,7 @@ TEST_F(DevicePushTest, DVRPushHuman)
 	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
 	auto eventTime = static_cast<long int>(std::time(nullptr));
 	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRHuman, 
-		kUid, eventTime, kDVRType, kDVRName, kChannelID, kChannelName);
+		kUid, eventTime, kDVRType, kChannelID, kChannelName);
 	EXPECT_EQ(result, 0);
 }
 
@@ -70,7 +70,7 @@ TEST_F(DevicePushTest, DVRPushMoved)
 	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
 	auto eventTime = static_cast<long int>(std::time(nullptr));
 	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMoved,
-		kUid, eventTime, kDVRType, kDVRName, kChannelID, kChannelName);
+		kUid, eventTime, kDVRType, kChannelID, kChannelName);
 	EXPECT_EQ(result, 0);
 }
 
@@ -80,6 +80,6 @@ TEST_F(DevicePushTest, pushWithHost)
 	_pusher->setPushHost(kHost);
 	auto eventTime = static_cast<long int>(std::time(nullptr));
 	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMoved,
-		kUid, eventTime, kDVRType, kDVRName, kChannelID, kChannelName);
+		kUid, eventTime, kDVRType, kChannelID, kChannelName);
 	EXPECT_EQ(result, 0);
 }

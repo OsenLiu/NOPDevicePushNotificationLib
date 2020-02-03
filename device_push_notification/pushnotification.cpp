@@ -142,7 +142,7 @@ void PushNotification::setPushHost(const std::string& host)
 }
 
 int PushNotification::sendPushNotication(EventKey eventKey, const std::string& uid, long eventTime,
-	const std::string& deviceType, const std::string& deviceName)
+	const std::string& deviceType)
 {
 	if (_sender == nullptr) {
 		return kNoSender;
@@ -157,7 +157,7 @@ int PushNotification::sendPushNotication(EventKey eventKey, const std::string& u
 }
 
 int PushNotification::sendPushNotication(EventKey eventKey, const std::string& uid, long eventTime, 
-	const std::string& deviceType, const std::string& deviceName, int channel, const std::string& channelName)
+	const std::string& deviceType, int channel, const std::string& channelName)
 {	
 	if (_sender == nullptr) {
 		return kNoSender;

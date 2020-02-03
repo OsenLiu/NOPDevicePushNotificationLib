@@ -40,11 +40,11 @@ public:
 
 	std::string getPushHost() const { return _host; };
 
-	// The standalone device sends push notification with event key, uid, event time, device type and device name.
-	int sendPushNotication(EventKey eventKey, const std::string& uid, long eventTime, const std::string& deviceType, const std::string& deviceName);
+	// The standalone device sends push notification with event key, uid, event time, and device type.
+	int sendPushNotication(EventKey eventKey, const std::string& uid, long eventTime, const std::string& deviceType);
 
-	// The DVR/NVR/WNVR device sends push notification with event key, uid, event time, device type, device name, and channel name.
-	int sendPushNotication(EventKey eventKey, const std::string& uid, long eventTime, const std::string& deviceType, const std::string& deviceName, int channel, const std::string& channelName);
+	// The DVR/NVR/WNVR device sends push notification with event key, uid, event time, device type, device name, channel number, and channel name.
+	int sendPushNotication(EventKey eventKey, const std::string& uid, long eventTime, const std::string& deviceType, int channel, const std::string& channelName);
 
 private:
 	int send(nightowl::NOP_Push_Notification::PushNotification::EventKey eventKey, const std::string& uid, 

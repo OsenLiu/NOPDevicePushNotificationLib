@@ -43,7 +43,7 @@ TEST_F(DeviceRealPushTest, StandalonePushMotion)
 {
 	auto eventTime = static_cast<long int>(std::time(nullptr));
 	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneMotion, 
-		kUid, eventTime, kStandaloneDeviceType, kStandaloneName);
+		kUid, eventTime, kStandaloneDeviceType);
 	EXPECT_EQ(result, 0);
 }
 
@@ -51,7 +51,7 @@ TEST_F(DeviceRealPushTest, DVRPushMotion)
 {
 	auto eventTime = static_cast<long int>(std::time(nullptr));
 	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMotion,
-		kUid, eventTime, kDVRType, kDVRName, kChannelID, kChannelName);
+		kUid, eventTime, kDVRType, kChannelID, kChannelName);
 	EXPECT_EQ(result, 0);
 }
 
@@ -59,7 +59,7 @@ TEST_F(DeviceRealPushTest, DVRPushHuman)
 {
 	auto eventTime = static_cast<long int>(std::time(nullptr));
 	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRHuman, 
-		kUid, eventTime, kDVRType, kDVRName, kChannelID, kChannelName);
+		kUid, eventTime, kDVRType, kChannelID, kChannelName);
 	EXPECT_EQ(result, 0);
 }
 
@@ -67,7 +67,7 @@ TEST_F(DeviceRealPushTest, DVRPushMoved)
 {
 	auto eventTime = static_cast<long int>(std::time(nullptr));
 	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMoved,
-		kUid, eventTime, kDVRType, kDVRName, kChannelID, kChannelName);
+		kUid, eventTime, kDVRType, kChannelID, kChannelName);
 	EXPECT_EQ(result, 0);
 }
 
@@ -76,6 +76,6 @@ TEST_F(DeviceRealPushTest, pushWithHost)
 	_pusher->setPushHost(kHost);
 	auto eventTime = static_cast<long int>(std::time(nullptr));
 	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMotion,
-		kUid, eventTime, kDVRType, kDVRName, kChannelID, kChannelName);
+		kUid, eventTime, kDVRType, kChannelID, kChannelName);
 	EXPECT_EQ(result, 0);
 }
