@@ -22,9 +22,11 @@ _pusher = std::make_unique<nightowl::NOP_Push_Notification::PushNotification>(_s
 auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneMotion, kUid, eventTime, kStandaloneDeviceType, kStandaloneName);
 ```
 
-## Requirements
-
-This library is written in c++ and compiled in c++ 11 or later.
+## Compiler
+You can set your own compile with following arguments:
+```
+cmake -D CMAKE_C_COMPILER=/path/to/gcc/bin/gcc -D CMAKE_CXX_COMPILER=/path/to/gcc/bin/g++ .
+```
 
 ## Build Requirements
 * CMake

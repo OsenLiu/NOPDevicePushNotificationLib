@@ -3,6 +3,13 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
+SET(CMAKE_SYSTEM_NAME Linux)
+
+if(EXISTS "$ENV{TOOLCHAIN_LIB_PATH}/../bin/$ENV{CROSS_COMPILE}gcc")
+SET(CMAKE_C_COMPILER $ENV{TOOLCHAIN_LIB_PATH}/../bin/$ENV{CROSS_COMPILE}gcc)
+SET(CMAKE_CXX_COMPILER $ENV{TOOLCHAIN_LIB_PATH}/../bin/$ENV{CROSS_COMPILE}g++)
+endif()
+
 project ("NOPDevicePushNotification")
 
 # Include sub-projects.
