@@ -8,7 +8,17 @@ find_package(CURL CONFIG REQUIRED)
 else (MSVC)
 set(CURL_LIBRARY "-lcurl")
 find_package(CURL REQUIRED)
+target_link_libraries(DefaultSenderLib PRIVATE -lssl)
+target_link_libraries(DefaultSenderLib PRIVATE -lcrypto)
 endif (MSVC)
+
+if(DEFINED ENV{INCLUDE_PATH})
+SET(CURL_INCLUDE_DIRS $ENV{INCLUDE_PATH})
+endif()
+
+if(DEFINED ENV{INSTALL_LIB_PATH})
+target_link_libraries(DefaultSenderLib PRIVATE -L$ENV{INSTALL_LIB_PATH})
+endif()
 
 target_link_libraries(DefaultSenderLib PRIVATE ${CURL_LIBRARIES})
 target_include_directories(DefaultSenderLib PRIVATE ${CURL_INCLUDE_DIRS})
