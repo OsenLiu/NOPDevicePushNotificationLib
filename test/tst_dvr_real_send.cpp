@@ -10,10 +10,8 @@
 
 namespace
 {
-const std::string kStandaloneName = "Nightowl-IPC";
 const std::string kDVRName = "Nightowl-DVR";
 const std::string kUid = "B7V2GYDZXT5KF15K111A";
-const std::string kStandaloneDeviceType = "standaloneIpCamera";
 const std::string kDVRType = "videoRecorder";
 const std::string kChannelName = "ch1";
 const std::string kHost = "push-staging.kalay.us";
@@ -39,14 +37,6 @@ protected:
 	std::unique_ptr<nightowl::NOP_Push_Notification::PushNotification> _pusher;
 };
 
-TEST_F(DeviceRealPushTest, StandalonePushMotion)
-{
-	auto eventTime = static_cast<long int>(std::time(nullptr));
-	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneMotion, 
-		kUid, eventTime, kStandaloneDeviceType);
-	EXPECT_EQ(result, 0);
-}
-
 TEST_F(DeviceRealPushTest, DVRPushMotion)
 {
 	auto eventTime = static_cast<long int>(std::time(nullptr));
@@ -71,7 +61,15 @@ TEST_F(DeviceRealPushTest, DVRPushMoved)
 	EXPECT_EQ(result, 0);
 }
 
-TEST_F(DeviceRealPushTest, pushWithHost)
+TEST_F(DeviceRealPushTest, DVRPushFaceDetect)
+{
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRFaceDetect,
+		kUid, eventTime, kDVRType, kChannelID, kChannelName);
+	EXPECT_EQ(result, 0);
+}
+
+TEST_F(DeviceRealPushTest, pushWithStageHost)
 {
 	_pusher->setPushHost(kHost);
 	auto eventTime = static_cast<long int>(std::time(nullptr));

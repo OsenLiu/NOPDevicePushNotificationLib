@@ -16,9 +16,11 @@ const std::string kPayloadFormat = "{\"event_type\":\"%s\",\"arg1\":\"%s\", \"ar
 const std::string kStandaloneMotionName = "E_SA_MOTION";
 const std::string kStandaloneHumanName = "E_SA_HUMAN";
 const std::string kStandaloneMovedName = "E_SA_DEVICE_MOVED";
+const std::string kStandaloneFaceDetectName = "E_SA_FACE_DETECTION";
 const std::string kDVRMotionName = "E_DVR_MOTION";
 const std::string kDVRHumanName = "E_DVR_HUMAN";
 const std::string kDVRMovedName = "E_DVR_DEVICE_MOVED";
+const std::string kDVRFaceDetectName = "E_DVR_FACE_DETECTION";
 const char kEmptyString[] = "";
 const int kNoSender = 999;
 
@@ -26,6 +28,7 @@ enum class EventType
 {
 	kMotion = 1,
 	kHuman = 30302,
+	kFaceDetected = 30303,
 	kDeviceMoved = 30315
 };
 
@@ -45,12 +48,16 @@ std::string getEventName(nightowl::NOP_Push_Notification::PushNotification::Even
 		return kStandaloneHumanName;
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneMoved:
 		return kStandaloneMovedName;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneFaceDetect:
+		return kStandaloneFaceDetectName;
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMotion:
 		return kDVRMotionName;
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRHuman:
 		return kDVRHumanName;
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMoved:
 		return kDVRMovedName;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRFaceDetect:
+		return kDVRFaceDetectName;
 	default:
 		break;
 	}
@@ -72,6 +79,10 @@ int getEventType(nightowl::NOP_Push_Notification::PushNotification::EventKey eve
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMoved:
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneMoved:
 		result = EventType::kDeviceMoved;
+		break;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRFaceDetect:
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneFaceDetect:
+		result = EventType::kFaceDetected;
 		break;
 	default:
 		break;

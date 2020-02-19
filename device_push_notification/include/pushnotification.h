@@ -20,9 +20,11 @@ public:
 		kStandaloneMotion,
 		kStandaloneHuman,
 		kStandaloneMoved,
+		kStandaloneFaceDetect,
 		kDVRMotion,
 		kDVRHuman,
-		kDVRMoved
+		kDVRMoved,
+		kDVRFaceDetect
 	};
 
 public:
