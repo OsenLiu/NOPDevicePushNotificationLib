@@ -49,3 +49,30 @@ std::string base64_encode(const ::std::string& bindata)
 
     return retval;
 }
+
+std::string base64_decode(const std::string& ascdata)
+{
+    using std::string;
+    string retval;
+    const string::const_iterator last = ascdata.end();
+    int bits_collected = 0;
+    unsigned int accumulator = 0;
+
+    for (string::const_iterator i = ascdata.begin(); i != last; ++i) {
+        const int c = *i;
+        if (std::isspace(c) || c == '=') {
+            // Skip whitespace and padding. Be liberal in what you accept.
+            continue;
+        }
+        if ((c > 127) || (c < 0) || (reverse_table[c] > 63)) {
+            throw std::invalid_argument("This contains characters not legal in a base64 encoded string.");
+        }
+        accumulator = (accumulator << 6) | reverse_table[c];
+        bits_collected += 6;
+        if (bits_collected >= 8) {
+            bits_collected -= 8;
+            retval += static_cast<char>((accumulator >> bits_collected) & 0xffu);
+        }
+    }
+    return retval;
+}

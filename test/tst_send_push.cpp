@@ -1,6 +1,4 @@
 #include <gtest/gtest.h>
-#include <nlohmann/json.hpp>
-
 
 #include <memory>
 
@@ -72,7 +70,7 @@ TEST_F(DevicePushTest, DVRPushMoved)
 	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
 	auto eventTime = static_cast<long int>(std::time(nullptr));
 	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMoved,
-		kUid, eventTime, kDVRType, kChannelID, kChannelName);
+		kUid, eventTime, kDVRType);
 	EXPECT_EQ(result, 0);
 }
 

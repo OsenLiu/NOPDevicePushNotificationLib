@@ -2,6 +2,7 @@
 #define NIGHTOWL_NOP_PUSHNOTIFICATION_H
 
 #include <string>
+#include <memory>
 
 #include "iHttpSender.h"
 #include "iLogger.h"
@@ -42,18 +43,11 @@ public:
 
 	std::string getPushHost() const { return _host; };
 
-	// The standalone device sends push notification with event key, uid, event time, and device type.
+	// The device sends push notification with event key, uid, event time, and device type.
 	int sendPushNotication(EventKey eventKey, const std::string& uid, long eventTime, const std::string& deviceType);
 
-	// The DVR/NVR/WNVR device sends push notification with event key, uid, event time, device type, device name, channel number, and channel name.
+	// The device sends push notification with event key, uid, event time, device type, device name, channel number, and channel name.
 	int sendPushNotication(EventKey eventKey, const std::string& uid, long eventTime, const std::string& deviceType, int channel, const std::string& channelName);
-
-private:
-	int send(nightowl::NOP_Push_Notification::PushNotification::EventKey eventKey, const std::string& uid, 
-		long eventTime, const std::string& deviceType, const std::unique_ptr<char[]>& payload, int payloadLength);
-
-	int send(nightowl::NOP_Push_Notification::PushNotification::EventKey eventKey, const std::string& uid,
-		long eventTime, const std::string& deviceType, int channel, const std::unique_ptr<char[]>& payload, int payloadLength);
 
 private:
 	std::shared_ptr<IHttpSender> _sender {};
