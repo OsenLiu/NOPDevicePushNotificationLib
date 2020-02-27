@@ -33,7 +33,6 @@ set(JSON_BuildTests OFF CACHE INTERNAL "")
 set(nlohmann_json_INCLUDE_DIRS  "${CMAKE_CURRENT_BINARY_DIR}/nlohmann_json-src/include"
     "${CMAKE_CURRENT_BINARY_DIR}/nlohmann_json-src/include/nlohmann"
 	CACHE INTERNAL "${PROJECT_NAME}: Include Directories" FORCE)
-set(JSON_BuildTests OFF CACHE INTERNAL "")
 #nlohmann_json
 
 project (NOPPush.Test)

@@ -49,6 +49,12 @@ public:
 	// The device sends push notification with event key, uid, event time, device type, device name, channel number, and channel name.
 	int sendPushNotication(EventKey eventKey, const std::string& uid, long eventTime, const std::string& deviceType, int channel, const std::string& channelName);
 
+	// The device sends push image notification with event key, uid, event time, image URL and device type.
+	int sendPushImageNotication(EventKey eventKey, const std::string& uid, long eventTime, const std::string& deviceType, const std::string& imageURL);
+
+	// The device sends push image notification with event key, uid, event time, device type, device name, channel number, , image URL and channel name.
+	int sendPushImageNotication(EventKey eventKey, const std::string& uid, long eventTime, const std::string& deviceType, int channel, const std::string& channelName, const std::string& imageURL);
+
 private:
 	std::shared_ptr<IHttpSender> _sender {};
 	std::shared_ptr<ILogger> _logger{};

@@ -74,7 +74,7 @@ protected:
 	nlohmann::json decode(std::string data) const
 	{
 		auto urlDecode = urldecode(data);
-		auto decode = base64_decode(urlDecode);
+		auto decode = nightowl_utils::base64_decode(urlDecode);
 		return nlohmann::json::parse(decode);
 	}
 

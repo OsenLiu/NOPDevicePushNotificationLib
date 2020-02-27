@@ -16,6 +16,7 @@ const std::string kStandaloneDeviceType = "standaloneIpCamera";
 const std::string kDVRType = "videoRecorder";
 const std::string kChannelName = "ch1";
 const std::string kHost = "push-staging.kalay.us";
+const std::string kImageURL = "http://upload.tutk/image/abcdefgsdjfsl.jpg";
 const int kChannelID = 1;
 } //namespace
 
@@ -90,5 +91,14 @@ TEST_F(DevicePushTest, pushWithStageHost)
 	auto eventTime = static_cast<long int>(std::time(nullptr));
 	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMoved,
 		kUid, eventTime, kDVRType, kChannelID, kChannelName);
+	EXPECT_EQ(result, 0);
+}
+
+TEST_F(DevicePushTest, DVRPushHumanImage)
+{
+	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushImageNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRHuman,
+		kUid, eventTime, kDVRType, kChannelID, kChannelName, kImageURL);
 	EXPECT_EQ(result, 0);
 }

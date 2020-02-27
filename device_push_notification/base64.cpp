@@ -3,20 +3,34 @@
 #include <limits>
 #include <stdexcept>
 #include <cctype>
+#include <vector>
 
+namespace
+{
 static const char b64_table[65] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 static const char reverse_table[128] = {
-   64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
-   64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
-   64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 62, 64, 64, 64, 63,
-   52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 64, 64, 64, 64, 64, 64,
-   64,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14,
-   15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 64, 64, 64, 64, 64,
-   64, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-   41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 64, 64, 64, 64, 64
+    64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+    64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+    64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 62, 64, 64, 64, 63,
+    52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 64, 64, 64, 64, 64, 64,
+    64,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14,
+    15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 64, 64, 64, 64, 64,
+    64, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+    41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 64, 64, 64, 64, 64
 };
 
+void hexchar(unsigned char c, unsigned char& hex1, unsigned char& hex2)
+{
+    hex1 = c / 16;
+    hex2 = c % 16;
+    hex1 += hex1 <= 9 ? '0' : 'a' - 10;
+    hex2 += hex2 <= 9 ? '0' : 'a' - 10;
+}
+}
+
+namespace nightowl_utils
+{
 std::string base64_encode(const ::std::string& bindata)
 {
     using ::std::string;
@@ -76,3 +90,36 @@ std::string base64_decode(const std::string& ascdata)
     }
     return retval;
 }
+std::string urlEncode(std::string s)
+{
+    const char* str = s.c_str();
+    std::vector<char> v(s.size());
+    v.clear();
+    for (size_t i = 0, l = s.size(); i < l; i++)
+    {
+        char c = str[i];
+        if ((c >= '0' && c <= '9') ||
+            (c >= 'a' && c <= 'z') ||
+            (c >= 'A' && c <= 'Z') ||
+            c == '-' || c == '_' || c == '.' || c == '!' || c == '~' ||
+            c == '*' || c == '\'' || c == '(' || c == ')')
+        {
+            v.push_back(c);
+        }
+        else if (c == ' ')
+        {
+            v.push_back('+');
+        }
+        else
+        {
+            v.push_back('%');
+            unsigned char d1, d2;
+            hexchar(c, d1, d2);
+            v.push_back(d1);
+            v.push_back(d2);
+        }
+    }
+
+    return std::string(v.cbegin(), v.cend());
+}
+} //nightowl_utils
