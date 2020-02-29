@@ -24,21 +24,44 @@ auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushN
 auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRFaceDetect, kUid, eventTime, kDVRType, kChannelID, kChannelName);
 ```
 
+Push notification with image URL
+```
+_pusher->sendPushImageNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRHuman, kUid, eventTime, kDVRType, kChannelID, kChannelName, kImageURL);
+```
+
 ## Compiler
 You can set your own compile with following arguments:
 ```
-cmake -D CMAKE_C_COMPILER=/path/to/gcc/bin/gcc -D CMAKE_CXX_COMPILER=/path/to/gcc/bin/g++ .
+cmake -DCMAKE_C_COMPILER=/path/to/gcc/bin/gcc -DCMAKE_CXX_COMPILER=/path/to/gcc/bin/g++ .
 ```
-Or you can set TOOLCHAIN_LIB_PATH and CROSS_COMPILE environment variable. CMake will find compile in following path:
+Hisiv SDK
 ```
-$ENV{TOOLCHAIN_LIB_PATH}/../bin/$ENV{CROSS_COMPILE}gcc
-$ENV{TOOLCHAIN_LIB_PATH}/../bin/$ENV{CROSS_COMPILE}g++
+export CROSS=arm-hisiv510-linux
+export TARGETMACH=arm-hisiv510-linux
+export CROSS_COMPILE="arm-hisiv510-linux"
+
+export AR=${CROSS_COMPILE}-ar
+export AS=${CROSS_COMPILE}-as
+export LD=${CROSS_COMPILE}-ld
+export RANLIB=${CROSS_COMPILE}-ranlib
+export CC=${CROSS_COMPILE}-gcc
+export CXX=${CROSS_COMPILE}-gcc
+export NM=${CROSS_COMPILE}-nm
 ```
+
 
 ## CURL Library
-add INSTALL_LIB_PATH environement variable so that it can link the libraries.
+CURL_LIBRARY_DIR is the curl static library path and CURL_INCLUDE_DIRS is curl header path.
 
-add INCLUDE_PATH environement variable to include the headers of libraries.
+OPENSSL_LIBRARY_DIR is the OpenSSL static library path and OPENSSL_INCLUDE_DIRS is OpenSSL header path.
+
+```
+cmake . -Bout -DCURL_LIBRARY_DIR=/root/project/externalLibs -DOPENSSL_LIBRARY_DIR=/root/project/externalLibs -DCURL_INCLUDE_DIRS=/root/project/curl/include -DOPENSSL_INCLUDE_DIRS=/root/project/openssl/include
+```
+Add CFLAGS CXXFLAGS in the head of command when you failed compiling with m32 or m64
+```
+CFLAGS= CXXFLAGS= cmake . -Bout -DCURL_LIBRARY_DIR=/root/project/externalLibs -DOPENSSL_LIBRARY_DIR=/root/project/externalLibs -DCURL_INCLUDE_DIRS=/root/project/curl/include -DOPENSSL_INCLUDE_DIRS=/root/project/openssl/include
+```  
 
 ## Build Requirements
 * CMake
