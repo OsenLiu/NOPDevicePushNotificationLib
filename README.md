@@ -50,7 +50,13 @@ export NM=${CROSS_COMPILE}-nm
 ```
 
 
-## CURL Library
+## Default Sender
+The Default sender sends http request with CURL and OpenSSL library. The integration tests are using default sender. You can set ENABLE_TEST to enable unit tests and integration tests.
+
+```
+cmake -DENABLE_TEST=ON
+```
+
 CURL_LIBRARY_DIR is the curl static library path and CURL_INCLUDE_DIRS is curl header path.
 
 OPENSSL_LIBRARY_DIR is the OpenSSL static library path and OPENSSL_INCLUDE_DIRS is OpenSSL header path.
