@@ -38,19 +38,22 @@ set(nlohmann_json_INCLUDE_DIRS  "${CMAKE_CURRENT_BINARY_DIR}/nlohmann_json-src/i
 project (NOPPush.Test)
 add_executable(NOPPush.Test 
 	main.cpp
-	tst_send_push.cpp
+	tst_mocksendpush.cpp
 	tst_dvr_real_send.cpp
     tst_standalone_real_send.cpp
     tst_payload.cpp
+    tst_uploadimage.cpp
     printfLogger.cpp
+
 )
 
 include_directories(${CMAKE_SOURCE_DIR} 
 	${DevicePushNotification_INCLUDE_DIRS}
     ${DefaultSender_INCLUDE_DIRS}
+    ${UploadImage_INCLUDE_DIRS}
 	${GTEST_INCLUDE_DIRS}
     ${nlohmann_json_INCLUDE_DIRS}
 )
 add_dependencies(NOPPush.Test third)
-target_link_libraries(NOPPush.Test gtest_main gmock_main DevicePushNotificationLib DefaultSenderLib)
+target_link_libraries(NOPPush.Test gtest_main gmock_main DevicePushNotificationLib DefaultSenderLib UploadImageLib)
 add_test(NAME "push_test" COMMAND "NOPPush.Test")

@@ -5,6 +5,7 @@
 #include <pushnotification.h>
 #include <iHttpSender.h>
 #include <curlsender.h>
+#include <uploadimage.h>
 
 #include "printfLogger.h"
 
@@ -16,6 +17,7 @@ const std::string kDVRType = "videoRecorder";
 const std::string kChannelName = "ch1";
 const std::string kHost = "push-staging.kalay.us";
 const int kChannelID = 1;
+const std::string kImagePath = "test.png";
 } //namespace
 
 class DeviceRealPushTest : public testing::Test
@@ -75,5 +77,19 @@ TEST_F(DeviceRealPushTest, pushWithStageHost)
 	auto eventTime = static_cast<long int>(std::time(nullptr));
 	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMotion,
 		kUid, eventTime, kDVRType, kChannelID, kChannelName);
+	EXPECT_EQ(result, 0);
+}
+
+TEST_F(DeviceRealPushTest, DVRPushHumanWithImage)
+{
+	auto sender = std::make_shared<nightowl::NOP::CurlSender>();
+	auto uploader = std::make_unique<nightowl::NOP_upload_image::UploadImage>(sender);
+	auto response = uploader->upload(kUid, kImagePath);
+	printf("image URL: %s", response.text.c_str());
+	ASSERT_EQ(response.responseCode, 0);
+	ASSERT_NE(response.text.c_str(), nullptr);
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushImageNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRHuman,
+		kUid, eventTime, kDVRType, kChannelID, kChannelName, response.text);
 	EXPECT_EQ(result, 0);
 }

@@ -39,6 +39,13 @@ find_package (Threads)
 if(CMAKE_THREAD_LIBS_INIT)
 target_link_libraries(DefaultSenderLib ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT})
 endif()
+#thread
+
+
+if(WIN32)
+  target_link_libraries(DefaultSenderLib wsock32 ws2_32)
+endif()
+#socket
 
 include_directories(include ${DevicePushNotification_INCLUDE_DIRS})
 set(${PROJECT_NAME}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include

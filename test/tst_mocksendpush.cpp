@@ -20,7 +20,7 @@ const std::string kImageURL = "http://upload.tutk/image/abcdefgsdjfsl.jpg";
 const int kChannelID = 1;
 } //namespace
 
-class DevicePushTest : public testing::Test
+class MockDevicePushTest : public testing::Test
 {
 protected:
 	void SetUp() override
@@ -39,7 +39,7 @@ protected:
 	std::unique_ptr<nightowl::NOP_Push_Notification::PushNotification> _pusher;
 };
 
-TEST_F(DevicePushTest, StandaloneDevicePushMotion)
+TEST_F(MockDevicePushTest, StandaloneDevicePushMotion)
 {
 	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
 	auto eventTime = static_cast<long int>(std::time(nullptr));
@@ -48,7 +48,7 @@ TEST_F(DevicePushTest, StandaloneDevicePushMotion)
 	EXPECT_EQ(result, 0);
 }
 
-TEST_F(DevicePushTest, StandaloneDevicePushHuman)
+TEST_F(MockDevicePushTest, StandaloneDevicePushHuman)
 {
 	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
 	auto eventTime = static_cast<long int>(std::time(nullptr));
@@ -57,7 +57,7 @@ TEST_F(DevicePushTest, StandaloneDevicePushHuman)
 	EXPECT_EQ(result, 0);
 }
 
-TEST_F(DevicePushTest, DVRPushHuman)
+TEST_F(MockDevicePushTest, DVRPushHuman)
 {
 	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
 	auto eventTime = static_cast<long int>(std::time(nullptr));
@@ -66,7 +66,7 @@ TEST_F(DevicePushTest, DVRPushHuman)
 	EXPECT_EQ(result, 0);
 }
 
-TEST_F(DevicePushTest, DVRPushMoved)
+TEST_F(MockDevicePushTest, DVRPushMoved)
 {
 	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
 	auto eventTime = static_cast<long int>(std::time(nullptr));
@@ -75,7 +75,7 @@ TEST_F(DevicePushTest, DVRPushMoved)
 	EXPECT_EQ(result, 0);
 }
 
-TEST_F(DevicePushTest, DVRPushFaceDetect)
+TEST_F(MockDevicePushTest, DVRPushFaceDetect)
 {
 	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
 	auto eventTime = static_cast<long int>(std::time(nullptr));
@@ -84,7 +84,7 @@ TEST_F(DevicePushTest, DVRPushFaceDetect)
 	EXPECT_EQ(result, 0);
 }
 
-TEST_F(DevicePushTest, pushWithStageHost)
+TEST_F(MockDevicePushTest, pushWithStageHost)
 {
 	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
 	_pusher->setPushHost(kHost);
@@ -94,7 +94,7 @@ TEST_F(DevicePushTest, pushWithStageHost)
 	EXPECT_EQ(result, 0);
 }
 
-TEST_F(DevicePushTest, DVRPushHumanImage)
+TEST_F(MockDevicePushTest, DVRPushHumanImage)
 {
 	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
 	auto eventTime = static_cast<long int>(std::time(nullptr));

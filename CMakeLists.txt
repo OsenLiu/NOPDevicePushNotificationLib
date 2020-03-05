@@ -11,6 +11,7 @@ project ("NOPDevicePushNotification")
 
 # Include sub-projects.
 add_subdirectory ("device_push_notification")
+add_subdirectory ("uploadImage")
 if(ENABLE_TEST)
 message(STATUS "All Tests are enabled")
 add_subdirectory ("curl")
