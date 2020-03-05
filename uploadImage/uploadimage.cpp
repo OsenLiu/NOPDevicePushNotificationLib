@@ -1,8 +1,6 @@
 #include <sstream>
 #include <vector>
 
-#include <curlsender.h>
-
 #include "uploadimage.h"
 
 namespace {
