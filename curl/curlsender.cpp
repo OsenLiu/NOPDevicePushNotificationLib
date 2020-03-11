@@ -24,10 +24,8 @@ int CurlSender::send(const std::string& url)
 		return kCurlInitFail;
 	}
 	curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-	//curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-	//curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
-	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
-	curl_easy_setopt(curl, CURLOPT_CAINFO, kCertFilePath.c_str());
+	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 1L);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT, kTimeoutInSecond);
 	auto res = curl_easy_perform(curl);
 	curl_easy_cleanup(curl);
@@ -81,8 +79,8 @@ NOP_Push_Notification::IHttpSender::Response CurlSender::post(const std::string&
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headerlist);
     curl_easy_setopt(curl, CURLOPT_HTTPPOST, formpost);
 
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
-    curl_easy_setopt(curl, CURLOPT_CAINFO, kCertFilePath.c_str());
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 1L);
 
     auto callback = [](char* contents, size_t size, size_t nmemb, void* userp)  -> size_t {
         ((std::string*)userp)->append(contents, size * nmemb);
