@@ -49,6 +49,8 @@ export CXX=${CROSS_COMPILE}-gcc
 export NM=${CROSS_COMPILE}-nm
 ```
 
+Add -DBUILD_SHARED_NOP to build share libraries.
+
 
 ## Default Sender
 The Default sender sends http request with CURL and OpenSSL library. The integration tests are using default sender. You can set ENABLE_TEST to enable unit tests and integration tests.

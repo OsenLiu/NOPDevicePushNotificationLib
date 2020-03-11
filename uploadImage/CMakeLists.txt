@@ -5,6 +5,9 @@ cmake_minimum_required (VERSION 3.8)
 project(UploadImage)
 
 ADD_LIBRARY(UploadImageLib STATIC uploadimage.cpp)
+if(BUILD_SHARED_NOP)
+ADD_LIBRARY(UploadImage SHARED uploadimage.cpp)
+endif(BUILD_SHARED_NOP)
 include_directories(include ${DevicePushNotification_INCLUDE_DIRS} ${DefaultSender_INCLUDE_DIRS})
 
 target_link_libraries(UploadImageLib DefaultSenderLib)
