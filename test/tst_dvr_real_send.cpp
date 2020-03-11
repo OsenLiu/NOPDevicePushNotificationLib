@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <memory>
+#include <nlohmann/json.hpp>
 
 #include <pushnotification.h>
 #include <iHttpSender.h>
@@ -12,12 +13,13 @@
 namespace
 {
 const std::string kDVRName = "Nightowl-DVR";
-const std::string kUid = "B7V2GYDZXT5KF15K111A";
+const std::string kUid = "CKZEGHUK9GC521E3111A";
 const std::string kDVRType = "videoRecorder";
 const std::string kChannelName = "ch1";
 const std::string kHost = "push-staging.kalay.us";
 const int kChannelID = 1;
 const std::string kImagePath = "test.png";
+const std::string kUploadURLKey = "url";
 } //namespace
 
 class DeviceRealPushTest : public testing::Test
@@ -85,11 +87,13 @@ TEST_F(DeviceRealPushTest, DVRPushHumanWithImage)
 	auto sender = std::make_shared<nightowl::NOP::CurlSender>();
 	auto uploader = std::make_unique<nightowl::NOP_upload_image::UploadImage>(sender);
 	auto response = uploader->upload(kUid, kImagePath);
-	printf("image URL: %s", response.text.c_str());
+	auto json = nlohmann::json::parse(response.text);
+	auto url = json.value(kUploadURLKey, "");
 	ASSERT_EQ(response.responseCode, 0);
-	ASSERT_NE(response.text.c_str(), nullptr);
+	ASSERT_FALSE(url.empty());
+	printf("image URL: %s", url.c_str());
 	auto eventTime = static_cast<long int>(std::time(nullptr));
 	auto result = _pusher->sendPushImageNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRHuman,
-		kUid, eventTime, kDVRType, kChannelID, kChannelName, response.text);
+		kUid, eventTime, kDVRType, kChannelID, kChannelName, url);
 	EXPECT_EQ(result, 0);
 }
