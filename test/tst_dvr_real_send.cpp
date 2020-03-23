@@ -13,7 +13,7 @@
 namespace
 {
 const std::string kDVRName = "Nightowl-DVR";
-const std::string kUid = "CKZEGHUK9GC521E3111A";
+const std::string kUid = "DFPAAD1WKNR4SGPGUHE1";
 const std::string kDVRType = "videoRecorder";
 const std::string kChannelName = "ch1";
 const std::string kHost = "push-staging.kalay.us";

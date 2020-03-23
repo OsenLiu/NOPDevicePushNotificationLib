@@ -84,9 +84,7 @@ int PushNotification::sendPushNotication(EventKey eventKey, const std::string& u
 		return kErrorNoSender;
 	}
 
-	auto payload = std::make_unique<Payload>();
-	auto payloadEncode = payload->generate(eventKey);
-
+	auto payloadEncode = nightowl_utils::generatePayload(eventKey);
 	auto eventType = getEventType(eventKey);
 	int length = snprintf(0, 0, kStandalonePushURLFormat.c_str(), _uri.c_str(), uid.c_str(), eventTime, eventType, deviceType.c_str(), payloadEncode.c_str()) + 1;
 	std::unique_ptr<char[]> buf(new char[length]);
@@ -105,8 +103,7 @@ int PushNotification::sendPushNotication(EventKey eventKey, const std::string& u
 		return kErrorNoSender;
 	}
 
-	auto payload = std::make_unique<Payload>();
-	auto payloadEncode = payload->generate(eventKey);
+	auto payloadEncode = nightowl_utils::generatePayload(eventKey);
 
 	auto eventType = getEventType(eventKey);
 	int length = snprintf(0, 0, kDVRPushURLFormat.c_str(), _uri.c_str(), uid.c_str(), eventTime, eventType, deviceType.c_str(), channel, payloadEncode.c_str()) + 1;
@@ -129,8 +126,7 @@ int PushNotification::sendPushImageNotication(EventKey eventKey, const std::stri
 		return kErrorNoImage;
 	}
 
-	auto payload = std::make_unique<Payload>();
-	auto payloadEncode = payload->generate(eventKey);
+	auto payloadEncode = nightowl_utils::generatePayload(eventKey);
 	auto encodedImageURL = nightowl_utils::urlEncode(imageURL);
 
 	auto eventType = getEventType(eventKey);
@@ -154,8 +150,7 @@ int PushNotification::sendPushImageNotication(EventKey eventKey, const std::stri
 		return kErrorNoImage;
 	}
 
-	auto payload = std::make_unique<Payload>();
-	auto payloadEncode = payload->generate(eventKey);
+	auto payloadEncode = nightowl_utils::generatePayload(eventKey);
 	auto encodedImageURL = nightowl_utils::urlEncode(imageURL);
 
 	auto eventType = getEventType(eventKey);

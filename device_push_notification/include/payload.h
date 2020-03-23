@@ -5,25 +5,10 @@
 
 #include "pushnotification.h"
 
-namespace nightowl {
-namespace NOP_Push_Notification {
-class Payload
-// Payload generates the payload string
+namespace nightowl_utils
 {
-public:
-	Payload() = default;
-	~Payload() = default;
+std::string generatePayload(nightowl::NOP_Push_Notification::PushNotification::EventKey eventKey);
 
-	Payload(const Payload&) = delete;
-	Payload& operator=(const Payload&) = delete;
-	Payload(const Payload&&) = delete;
-	Payload& operator=(const Payload&&) = delete;
-
-	std::string generate(PushNotification::EventKey eventKey) const;
-
-	std::string generate(PushNotification::EventKey eventKey, const std::string& channelName) const;
-};
-} //NOP_Push_Notification
-} //nightowl
-
+std::string generatePayload(nightowl::NOP_Push_Notification::PushNotification::EventKey eventKey, const std::string& channelName);
+} //nightowl_utils
 #endif //NIGHTOWL_NOP_PAYLOAD_H

@@ -62,28 +62,17 @@ std::string urldecode(const std::string& toDecode)
 class PayloadTest : public testing::Test
 {
 protected:
-	void SetUp() override
-	{
-		_payload = std::make_unique< nightowl::NOP_Push_Notification::Payload>();
-	}
-
-	void TearDown() override
-	{
-	}
-
 	nlohmann::json decode(std::string data) const
 	{
 		auto urlDecode = urldecode(data);
 		auto decode = nightowl_utils::base64_decode(urlDecode);
 		return nlohmann::json::parse(decode);
 	}
-
-	std::unique_ptr<nightowl::NOP_Push_Notification::Payload> _payload;
 };
 
 TEST_F(PayloadTest, StandaloneMotion)
 {
-	auto data = _payload->generate(nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneMotion);
+	auto data = nightowl_utils::generatePayload(nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneMotion);
 	auto json = decode(data);
 	EXPECT_STREQ(json.value(kEventType, "").c_str(), kStandaloneMotionName.c_str());
 	EXPECT_STREQ(json.value(kArg1, "").c_str(), kEmptyString);
@@ -93,7 +82,7 @@ TEST_F(PayloadTest, StandaloneMotion)
 
 TEST_F(PayloadTest, StandaloneHuman)
 {
-	auto data = _payload->generate(nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneHuman);
+	auto data = nightowl_utils::generatePayload(nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneHuman);
 	auto json = decode(data);
 	EXPECT_STREQ(json.value(kEventType, "").c_str(), kStandaloneHumanName.c_str());
 	EXPECT_STREQ(json.value(kArg1, "").c_str(), kEmptyString);
@@ -103,7 +92,7 @@ TEST_F(PayloadTest, StandaloneHuman)
 
 TEST_F(PayloadTest, StandaloneDeviceMoved)
 {
-	auto data = _payload->generate(nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneMoved);
+	auto data = nightowl_utils::generatePayload(nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneMoved);
 	auto json = decode(data);
 	EXPECT_STREQ(json.value(kEventType, "").c_str(), kStandaloneMovedName.c_str());
 	EXPECT_STREQ(json.value(kArg1, "").c_str(), kEmptyString);
@@ -113,7 +102,7 @@ TEST_F(PayloadTest, StandaloneDeviceMoved)
 
 TEST_F(PayloadTest, StandaloneFaceDetect)
 {
-	auto data = _payload->generate(nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneFaceDetect);
+	auto data = nightowl_utils::generatePayload(nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneFaceDetect);
 	auto json = decode(data);
 	EXPECT_STREQ(json.value(kEventType, "").c_str(), kStandaloneFaceDetectName.c_str());
 	EXPECT_STREQ(json.value(kArg1, "").c_str(), kEmptyString);
@@ -123,7 +112,7 @@ TEST_F(PayloadTest, StandaloneFaceDetect)
 
 TEST_F(PayloadTest, DVRMotion)
 {
-	auto data = _payload->generate(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMotion, kChannelName);
+	auto data = nightowl_utils::generatePayload(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMotion, kChannelName);
 	auto json = decode(data);
 	EXPECT_STREQ(json.value(kEventType, "").c_str(), kDVRMotionName.c_str());
 	EXPECT_STREQ(json.value(kArg1, "").c_str(), kChannelName.c_str());
@@ -133,7 +122,7 @@ TEST_F(PayloadTest, DVRMotion)
 
 TEST_F(PayloadTest, DVRHuman)
 {
-	auto data = _payload->generate(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRHuman, kChannelName);
+	auto data = nightowl_utils::generatePayload(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRHuman, kChannelName);
 	auto json = decode(data);
 	EXPECT_STREQ(json.value(kEventType, "").c_str(), kDVRHumanName.c_str());
 	EXPECT_STREQ(json.value(kArg1, "").c_str(), kChannelName.c_str());
@@ -143,7 +132,7 @@ TEST_F(PayloadTest, DVRHuman)
 
 TEST_F(PayloadTest, DVRFaceDetect)
 {
-	auto data = _payload->generate(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRFaceDetect, kChannelName);
+	auto data = nightowl_utils::generatePayload(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRFaceDetect, kChannelName);
 	auto json = decode(data);
 	EXPECT_STREQ(json.value(kEventType, "").c_str(), kDVRFaceDetectName.c_str());
 	EXPECT_STREQ(json.value(kArg1, "").c_str(), kChannelName.c_str());
@@ -153,7 +142,7 @@ TEST_F(PayloadTest, DVRFaceDetect)
 
 TEST_F(PayloadTest, DVRDeviceMoved)
 {
-	auto data = _payload->generate(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMoved);
+	auto data = nightowl_utils::generatePayload(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMoved);
 	auto json = decode(data);
 	EXPECT_STREQ(json.value(kEventType, "").c_str(), kDVRMovedName.c_str());
 	EXPECT_STREQ(json.value(kArg1, "").c_str(), kEmptyString);

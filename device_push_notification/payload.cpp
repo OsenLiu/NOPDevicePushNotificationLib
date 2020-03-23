@@ -39,9 +39,8 @@ std::string getEventName(nightowl::NOP_Push_Notification::PushNotification::Even
 }
 } //namespace
 
-namespace nightowl {
-namespace NOP_Push_Notification {
-std::string Payload::generate(PushNotification::EventKey eventKey) const
+namespace nightowl_utils {
+std::string generatePayload(nightowl::NOP_Push_Notification::PushNotification::EventKey eventKey)
 {
 	auto eventName = getEventName(eventKey);
 	int length = snprintf(0, 0, kPayloadFormat.c_str(), eventName.c_str(), kEmptyString, kEmptyString, kEmptyString) + 1;
@@ -52,7 +51,7 @@ std::string Payload::generate(PushNotification::EventKey eventKey) const
 	return nightowl_utils::urlEncode(payload64);
 }
 
-std::string Payload::generate(PushNotification::EventKey eventKey, const std::string& channelName) const
+std::string generatePayload(nightowl::NOP_Push_Notification::PushNotification::EventKey eventKey, const std::string& channelName)
 {
 	auto eventName = getEventName(eventKey);
 	int length = snprintf(0, 0, kPayloadFormat.c_str(), eventName.c_str(), channelName.c_str(), kEmptyString, kEmptyString) + 1;
@@ -62,5 +61,4 @@ std::string Payload::generate(PushNotification::EventKey eventKey, const std::st
 	auto payload64 = nightowl_utils::base64_encode(std::string(payload.get()));
 	return nightowl_utils::urlEncode(payload64);
 }
-} //NOP_Push_Notification
-} //nightowl
+} //nightowl_utils
