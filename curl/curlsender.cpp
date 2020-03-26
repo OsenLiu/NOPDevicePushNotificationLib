@@ -10,8 +10,6 @@ const int kCurlInitFail = 99;
 const int kCurlFdsetFail = 100;
 const int kCurlTimeoutFail = 101;
 const int kTimeoutInSecond = 20L;
-
-const std::string kCertFilePath = "cacert-2020-01-01.pem";
 } //namespace
 
 namespace nightowl {

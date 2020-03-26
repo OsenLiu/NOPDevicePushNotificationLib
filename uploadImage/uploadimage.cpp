@@ -6,7 +6,7 @@
 namespace {
 const std::string kScheme = "https://";
 const std::string kURIPath = "/filestorage/api/v1/upload";
-const std::string kHost = "asia-upload-tutk-stg.kalay.us";
+const std::string kHost = "smart-notifications.nowlsp.com";
 const std::string kRealm = "?realm=tutk";
 const std::string kValidation = "validation";
 const std::string kUploadFile = "uploadFile";
