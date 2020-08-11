@@ -102,3 +102,66 @@ TEST_F(MockDevicePushTest, DVRPushHumanImage)
 		kUid, eventTime, kDVRType, kChannelID, kChannelName, kImageURL);
 	EXPECT_EQ(result, 0);
 }
+
+TEST_F(MockDevicePushTest, DVRPushLowBattery)
+{
+	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushImageNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRLowBattery,
+		kUid, eventTime, kDVRType, kChannelID, kChannelName, kImageURL);
+	EXPECT_EQ(result, 0);
+}
+
+TEST_F(MockDevicePushTest, StandalonePushLowBattery)
+{
+	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushImageNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneLowBattery,
+		kUid, eventTime, kDVRType, kChannelID, kChannelName, kImageURL);
+	EXPECT_EQ(result, 0);
+}
+
+TEST_F(MockDevicePushTest, DVRPushBatteryFull)
+{
+	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushImageNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRBatteryFullCharged,
+		kUid, eventTime, kDVRType, kChannelID, kChannelName, kImageURL);
+	EXPECT_EQ(result, 0);
+}
+
+TEST_F(MockDevicePushTest, DVRPushDefectBattery)
+{
+	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushImageNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRDefectBattery,
+		kUid, eventTime, kDVRType, kChannelID, kChannelName, kImageURL);
+	EXPECT_EQ(result, 0);
+}
+
+TEST_F(MockDevicePushTest, firmwareAvailable)
+{
+	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushImageNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kFirmwareAvailable,
+		kUid, eventTime, kDVRType, kChannelID, kChannelName, kImageURL);
+	EXPECT_EQ(result, 0);
+}
+
+TEST_F(MockDevicePushTest, upgradeSuccess)
+{
+	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushImageNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kUpgradeSuccess,
+		kUid, eventTime, kDVRType, kChannelID, kChannelName, kImageURL);
+	EXPECT_EQ(result, 0);
+}
+
+TEST_F(MockDevicePushTest, upgradeFail)
+{
+	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushImageNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kUpgradeFail,
+		kUid, eventTime, kDVRType, kChannelID, kChannelName, kImageURL);
+	EXPECT_EQ(result, 0);
+}

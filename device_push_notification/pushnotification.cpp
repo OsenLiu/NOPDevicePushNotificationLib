@@ -20,7 +20,13 @@ enum class EventType
 	kMotion = 1,
 	kHuman = 30302,
 	kFaceDetected = 30303,
-	kDeviceMoved = 30315
+	kBatteryLow = 30309,
+	kBatteryFull = 30310,
+	kBatteryDefective = 30311,
+	kDeviceMoved = 30315,
+	kFirmwareAvailable = 30601,
+	kUpgradeSuccess = 30602,
+	kUpgradeFail = 30603
 };
 
 std::string getURI(std::string scheme, std::string host, std::string path)
@@ -49,6 +55,27 @@ int getEventType(nightowl::NOP_Push_Notification::PushNotification::EventKey eve
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRFaceDetect:
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneFaceDetect:
 		result = EventType::kFaceDetected;
+		break;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRLowBattery:
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneLowBattery:
+		result = EventType::kBatteryLow;
+		break;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRBatteryFullCharged:
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneBatteryFullCharged:
+		result = EventType::kBatteryFull;
+		break;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRDefectBattery:
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneDefectBattery:
+		result = EventType::kBatteryDefective;
+		break;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kFirmwareAvailable:
+		result = EventType::kFirmwareAvailable;
+		break;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kUpgradeSuccess:
+		result = EventType::kUpgradeSuccess;
+		break;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kUpgradeFail:
+		result = EventType::kUpgradeFail;
 		break;
 	default:
 		break;
@@ -103,7 +130,7 @@ int PushNotification::sendPushNotication(EventKey eventKey, const std::string& u
 		return kErrorNoSender;
 	}
 
-	auto payloadEncode = nightowl_utils::generatePayload(eventKey);
+	auto payloadEncode = nightowl_utils::generatePayload(eventKey, channelName);
 
 	auto eventType = getEventType(eventKey);
 	int length = snprintf(0, 0, kDVRPushURLFormat.c_str(), _uri.c_str(), uid.c_str(), eventTime, eventType, deviceType.c_str(), channel, payloadEncode.c_str()) + 1;
@@ -150,7 +177,7 @@ int PushNotification::sendPushImageNotication(EventKey eventKey, const std::stri
 		return kErrorNoImage;
 	}
 
-	auto payloadEncode = nightowl_utils::generatePayload(eventKey);
+	auto payloadEncode = nightowl_utils::generatePayload(eventKey, channelName);
 	auto encodedImageURL = nightowl_utils::urlEncode(imageURL);
 
 	auto eventType = getEventType(eventKey);

@@ -22,10 +22,19 @@ public:
 		kStandaloneHuman,
 		kStandaloneMoved,
 		kStandaloneFaceDetect,
+		kStandaloneLowBattery,
+		kStandaloneBatteryFullCharged,
+		kStandaloneDefectBattery,
 		kDVRMotion,
 		kDVRHuman,
 		kDVRMoved,
-		kDVRFaceDetect
+		kDVRFaceDetect,
+		kDVRLowBattery,
+		kDVRBatteryFullCharged,
+		kDVRDefectBattery,
+		kFirmwareAvailable,
+		kUpgradeSuccess,
+		kUpgradeFail
 	};
 
 public:

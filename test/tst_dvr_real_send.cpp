@@ -16,9 +16,9 @@
 namespace
 {
 const std::string kDVRName = "Nightowl-DVR";
-const std::string kUid = "CKZEGHUK9GC521E3111A";
+const std::string kUid = "FFUU9X3WK1R48G6GY1RJ";
 const std::string kDVRType = "videoRecorder";
-const std::string kChannelName = "ch1";
+const std::string kChannelName = "test ch1";
 const std::string kHost = "push-staging.kalay.us";
 const int kChannelID = 1;
 const std::string kImagePath = "test.png";
@@ -76,6 +76,31 @@ TEST_F(DeviceRealPushTest, DVRPushFaceDetect)
 	EXPECT_EQ(result, 0);
 }
 
+TEST_F(DeviceRealPushTest, DVRPushLowBattery)
+{
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRLowBattery,
+		kUid, eventTime, kDVRType, kChannelID, kChannelName);
+	EXPECT_EQ(result, 0);
+}
+
+TEST_F(DeviceRealPushTest, DVRPushDefectBattery)
+{
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRDefectBattery,
+		kUid, eventTime, kDVRType, kChannelID, kChannelName);
+	EXPECT_EQ(result, 0);
+}
+
+TEST_F(DeviceRealPushTest, DVRPushBatteryFull)
+{
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRBatteryFullCharged,
+		kUid, eventTime, kDVRType, kChannelID, kChannelName);
+	EXPECT_EQ(result, 0);
+}
+
+
 TEST_F(DeviceRealPushTest, pushWithStageHost)
 {
 	_pusher->setPushHost(kHost);
@@ -109,11 +134,12 @@ TEST_F(DeviceRealPushTest, DVRPushHumanWithImage)
 
 TEST_F(DeviceRealPushTest, DVRPushTwoEvent)
 {
+	_pusher->setPushHost(kHost);
 	auto eventTime = static_cast<long int>(std::time(nullptr));
-	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRFaceDetect,
+	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRLowBattery,
 		kUid, eventTime, kDVRType, kChannelID, kChannelName);
 	EXPECT_EQ(result, 0);
-	std::this_thread::sleep_for(std::chrono::milliseconds(1800));
+	std::this_thread::sleep_for(std::chrono::milliseconds(4000));
 	eventTime = static_cast<long int>(std::time(nullptr));
 	result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRHuman,
 		kUid, eventTime, kDVRType, kChannelID, kChannelName);

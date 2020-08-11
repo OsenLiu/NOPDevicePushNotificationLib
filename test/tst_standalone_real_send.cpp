@@ -11,7 +11,7 @@
 namespace
 {
 	const std::string kStandaloneName = "Nightowl-IPC";
-	const std::string kUid = "B7V2GYDZXT5KF15K111A";
+	const std::string kUid = "FFUU9X3WK1R48G6GY1RJ";
 	const std::string kStandaloneDeviceType = "standaloneIpCamera";
 	const std::string kHost = "push-staging.kalay.us";
 } //namespace
@@ -64,6 +64,30 @@ TEST_F(StandaloneRealPushTest, pushWithStageHost)
 	_pusher->setPushHost(kHost);
 	auto eventTime = static_cast<long int>(std::time(nullptr));
 	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMotion,
+		kUid, eventTime, kStandaloneDeviceType);
+	EXPECT_EQ(result, 0);
+}
+
+TEST_F(StandaloneRealPushTest, firmwareAvailable)
+{
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kFirmwareAvailable,
+		kUid, eventTime, kStandaloneDeviceType);
+	EXPECT_EQ(result, 0);
+}
+
+TEST_F(StandaloneRealPushTest, upgradeSuccess)
+{
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kUpgradeSuccess,
+		kUid, eventTime, kStandaloneDeviceType);
+	EXPECT_EQ(result, 0);
+}
+
+TEST_F(StandaloneRealPushTest, upgradeFail)
+{
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kUpgradeFail,
 		kUid, eventTime, kStandaloneDeviceType);
 	EXPECT_EQ(result, 0);
 }

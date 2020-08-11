@@ -7,10 +7,21 @@ const std::string kStandaloneMotionName = "E_SA_MOTION";
 const std::string kStandaloneHumanName = "E_SA_HUMAN";
 const std::string kStandaloneMovedName = "E_SA_DEVICE_MOVED";
 const std::string kStandaloneFaceDetectName = "E_SA_FACE_DETECTION";
+const std::string kStandaloneLowBatteryName = "E_SA_LOW_BATTERY";
+const std::string kStandaloneBatteryFullName = "E_SA_BATTERY_FULLY_CHARGED";
+const std::string kStandaloneDefectBatteryName = "E_SA_DEFECTIVE_BATTERY";
 const std::string kDVRMotionName = "E_DVR_MOTION";
 const std::string kDVRHumanName = "E_DVR_HUMAN";
 const std::string kDVRMovedName = "E_DVR_DEVICE_MOVED";
 const std::string kDVRFaceDetectName = "E_DVR_FACE_DETECTION";
+const std::string kDVRLowBatteryName = "E_DVR_LOW_BATTERY";
+const std::string kDVRBatteryFullName = "E_DVR_BATTERY_FULLY_CHARGED";
+const std::string kDVRDefectBatteryName = "E_DVR_DEFECTIVE_BATTERY";
+const std::string kFirmwareAvailableName = "E_FIRMWARE_AVAILABLE";
+const std::string kUpgradeSuccessName = "E_UPGRADE_SUCCESS";
+const std::string kUpgradeFailName = "E_UPGRADE_FAIL";
+
+
 const char kEmptyString[] = "";
 
 std::string getEventName(nightowl::NOP_Push_Notification::PushNotification::EventKey eventType)
@@ -24,6 +35,12 @@ std::string getEventName(nightowl::NOP_Push_Notification::PushNotification::Even
 		return kStandaloneMovedName;
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneFaceDetect:
 		return kStandaloneFaceDetectName;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneLowBattery:
+		return kStandaloneLowBatteryName;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneBatteryFullCharged:
+		return kStandaloneBatteryFullName;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneDefectBattery:
+		return kStandaloneDefectBatteryName;
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMotion:
 		return kDVRMotionName;
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRHuman:
@@ -32,6 +49,18 @@ std::string getEventName(nightowl::NOP_Push_Notification::PushNotification::Even
 		return kDVRMovedName;
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRFaceDetect:
 		return kDVRFaceDetectName;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRLowBattery:
+		return kDVRLowBatteryName;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRDefectBattery:
+		return kDVRDefectBatteryName;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRBatteryFullCharged:
+		return kDVRBatteryFullName;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kFirmwareAvailable:
+		return kFirmwareAvailableName;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kUpgradeSuccess:
+		return kUpgradeSuccessName;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kUpgradeFail:
+		return kUpgradeFailName;
 	default:
 		break;
 	}
