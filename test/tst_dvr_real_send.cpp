@@ -176,7 +176,7 @@ TEST_F(DeviceRealPushTest, DVRPushTwoImageEvent)
 TEST_F(DeviceRealPushTest, DVRPushVehicleDetect)
 {
 	auto eventTime = static_cast<long int>(std::time(nullptr));
-	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kVehicleDetected,
+	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRVehicleDetected,
 		kUid, eventTime, kDVRType, kChannelID, kChannelName);
 	EXPECT_EQ(result, 0);
 }

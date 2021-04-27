@@ -79,7 +79,8 @@ int getEventType(nightowl::NOP_Push_Notification::PushNotification::EventKey eve
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kUpgradeFail:
 		result = EventType::kUpgradeFail;
 		break;
-	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kVehicleDetected:
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRVehicleDetected:
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneVehicleDetected:
 		result = EventType::kVehicleDetected;
 		break;
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDoorbellRing:

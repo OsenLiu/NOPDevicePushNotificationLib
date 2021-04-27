@@ -25,6 +25,7 @@ public:
 		kStandaloneLowBattery,
 		kStandaloneBatteryFullCharged,
 		kStandaloneDefectBattery,
+		kStandaloneVehicleDetected,
 		kDVRMotion,
 		kDVRHuman,
 		kDVRMoved,
@@ -32,10 +33,10 @@ public:
 		kDVRLowBattery,
 		kDVRBatteryFullCharged,
 		kDVRDefectBattery,
+		kDVRVehicleDetected,
 		kFirmwareAvailable,
 		kUpgradeSuccess,
 		kUpgradeFail,
-		kVehicleDetected,
 		kDoorbellRing
 	};
 

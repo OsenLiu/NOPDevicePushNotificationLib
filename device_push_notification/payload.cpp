@@ -10,6 +10,7 @@ const std::string kStandaloneFaceDetectName = "E_SA_FACE_DETECTION";
 const std::string kStandaloneLowBatteryName = "E_SA_LOW_BATTERY";
 const std::string kStandaloneBatteryFullName = "E_SA_BATTERY_FULLY_CHARGED";
 const std::string kStandaloneDefectBatteryName = "E_SA_DEFECTIVE_BATTERY";
+const std::string kStandaloneVehicleDetect = "E_SA_VEHICLE_DETECTED";
 const std::string kDVRMotionName = "E_DVR_MOTION";
 const std::string kDVRHumanName = "E_DVR_HUMAN";
 const std::string kDVRMovedName = "E_DVR_DEVICE_MOVED";
@@ -17,6 +18,7 @@ const std::string kDVRFaceDetectName = "E_DVR_FACE_DETECTION";
 const std::string kDVRLowBatteryName = "E_DVR_LOW_BATTERY";
 const std::string kDVRBatteryFullName = "E_DVR_BATTERY_FULLY_CHARGED";
 const std::string kDVRDefectBatteryName = "E_DVR_DEFECTIVE_BATTERY";
+const std::string kDVRVehicleDetect = "E_DVR_VEHICLE_DETECTION";
 const std::string kFirmwareAvailableName = "E_FIRMWARE_AVAILABLE";
 const std::string kUpgradeSuccessName = "E_UPGRADE_SUCCESS";
 const std::string kUpgradeFailName = "E_UPGRADE_FAIL";
@@ -41,6 +43,8 @@ std::string getEventName(nightowl::NOP_Push_Notification::PushNotification::Even
 		return kStandaloneBatteryFullName;
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneDefectBattery:
 		return kStandaloneDefectBatteryName;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kStandaloneVehicleDetected:
+		return kStandaloneVehicleDetect;
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMotion:
 		return kDVRMotionName;
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRHuman:
@@ -55,6 +59,8 @@ std::string getEventName(nightowl::NOP_Push_Notification::PushNotification::Even
 		return kDVRDefectBatteryName;
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRBatteryFullCharged:
 		return kDVRBatteryFullName;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRVehicleDetected:
+		return kDVRVehicleDetect;
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kFirmwareAvailable:
 		return kFirmwareAvailableName;
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kUpgradeSuccess:
