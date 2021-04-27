@@ -88,7 +88,10 @@ NOP_Push_Notification::IHttpSender::Response CurlSender::post(const std::string&
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &(response.text));
     curl_easy_setopt(curl, CURLOPT_TIMEOUT, kTimeoutInSecond);
 
-    response.responseCode = curl_easy_perform(curl);
+    auto code = curl_easy_perform(curl);
+    if (code == CURLE_OK) {
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response.responseCode);
+    }
 
     /* always cleanup */
     curl_easy_cleanup(curl);

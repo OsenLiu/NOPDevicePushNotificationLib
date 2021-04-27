@@ -165,3 +165,21 @@ TEST_F(MockDevicePushTest, upgradeFail)
 		kUid, eventTime, kDVRType, kChannelID, kChannelName, kImageURL);
 	EXPECT_EQ(result, 0);
 }
+
+TEST_F(MockDevicePushTest, DVRPushVehicleDetect)
+{
+	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushImageNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kVehicleDetected,
+		kUid, eventTime, kDVRType, kChannelID, kChannelName, kImageURL);
+	EXPECT_EQ(result, 0);
+}
+
+TEST_F(MockDevicePushTest, DoorbellRing)
+{
+	ON_CALL(*_sender, send(testing::_)).WillByDefault(testing::Return(0));
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushImageNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDoorbellRing,
+		kUid, eventTime, kStandaloneDeviceType, kImageURL);
+	EXPECT_EQ(result, 0);
+}

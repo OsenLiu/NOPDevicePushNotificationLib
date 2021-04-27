@@ -20,9 +20,11 @@ enum class EventType
 	kMotion = 1,
 	kHuman = 30302,
 	kFaceDetected = 30303,
+	kVehicleDetected = 30305,
 	kBatteryLow = 30309,
 	kBatteryFull = 30310,
 	kBatteryDefective = 30311,
+	kDoorbellRing = 30312,
 	kDeviceMoved = 30315,
 	kFirmwareAvailable = 30601,
 	kUpgradeSuccess = 30602,
@@ -76,6 +78,12 @@ int getEventType(nightowl::NOP_Push_Notification::PushNotification::EventKey eve
 		break;
 	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kUpgradeFail:
 		result = EventType::kUpgradeFail;
+		break;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kVehicleDetected:
+		result = EventType::kVehicleDetected;
+		break;
+	case nightowl::NOP_Push_Notification::PushNotification::EventKey::kDoorbellRing:
+		result = EventType::kDoorbellRing;
 		break;
 	default:
 		break;

@@ -11,7 +11,7 @@
 namespace
 {
 	const std::string kStandaloneName = "Nightowl-IPC";
-	const std::string kUid = "FFUU9X3WK1R48G6GY1RJ";
+	const std::string kUid = "F3KA852CUZ74UGPGY1D1";
 	const std::string kStandaloneDeviceType = "standaloneIpCamera";
 	const std::string kHost = "push-staging.kalay.us";
 } //namespace

@@ -34,7 +34,9 @@ public:
 		kDVRDefectBattery,
 		kFirmwareAvailable,
 		kUpgradeSuccess,
-		kUpgradeFail
+		kUpgradeFail,
+		kVehicleDetected,
+		kDoorbellRing
 	};
 
 public:
@@ -61,7 +63,7 @@ public:
 	// The device sends push image notification with event key, uid, event time, image URL and device type.
 	int sendPushImageNotication(EventKey eventKey, const std::string& uid, long eventTime, const std::string& deviceType, const std::string& imageURL);
 
-	// The device sends push image notification with event key, uid, event time, device type, device name, channel number, , image URL and channel name.
+	// The device sends push image notification with event key, uid, event time, device type, device name, channel number, image URL and channel name.
 	int sendPushImageNotication(EventKey eventKey, const std::string& uid, long eventTime, const std::string& deviceType, int channel, const std::string& channelName, const std::string& imageURL);
 
 private:

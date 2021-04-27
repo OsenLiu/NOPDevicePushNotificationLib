@@ -123,7 +123,7 @@ TEST_F(DeviceRealPushTest, DVRPushHumanWithImage)
 	auto response = uploader->upload(kUid, kImagePath);
 	auto json = nlohmann::json::parse(response.text);
 	auto url = json.value(kUploadURLKey, "");
-	ASSERT_EQ(response.responseCode, 0);
+	ASSERT_EQ(response.responseCode, 200);
 	ASSERT_FALSE(url.empty());
 	printf("image URL: %s", url.c_str());
 	auto eventTime = static_cast<long int>(std::time(nullptr));
@@ -134,14 +134,49 @@ TEST_F(DeviceRealPushTest, DVRPushHumanWithImage)
 
 TEST_F(DeviceRealPushTest, DVRPushTwoEvent)
 {
-	_pusher->setPushHost(kHost);
 	auto eventTime = static_cast<long int>(std::time(nullptr));
-	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRLowBattery,
+	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRFaceDetect,
 		kUid, eventTime, kDVRType, kChannelID, kChannelName);
 	EXPECT_EQ(result, 0);
-	std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+	std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	eventTime = static_cast<long int>(std::time(nullptr));
 	result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRHuman,
+		kUid, eventTime, kDVRType, kChannelID, kChannelName);
+	EXPECT_EQ(result, 0);
+}
+
+TEST_F(DeviceRealPushTest, DVRPushTwoImageEvent)
+{
+	struct stat buffer;
+	bool isFileExisted = false;
+	if (stat(kImagePath.c_str(), &buffer) == 0) {
+		isFileExisted = true;
+	}
+	ASSERT_TRUE(isFileExisted);
+	auto sender = std::make_shared<nightowl::NOP::CurlSender>();
+	auto uploader = std::make_unique<nightowl::NOP_upload_image::UploadImage>(sender);
+	auto response = uploader->upload(kUid, kImagePath);
+	auto json = nlohmann::json::parse(response.text);
+	auto url = json.value(kUploadURLKey, "");
+	ASSERT_EQ(response.responseCode, 200);
+	ASSERT_FALSE(url.empty());
+	printf("image URL: %s", url.c_str());
+
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushImageNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRFaceDetect,
+		kUid, eventTime, kDVRType, kChannelID, kChannelName, url);
+	EXPECT_EQ(result, 0);
+	std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	eventTime = static_cast<long int>(std::time(nullptr));
+	result = _pusher->sendPushImageNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRHuman,
+		kUid, eventTime, kDVRType, kChannelID, kChannelName, url);
+	EXPECT_EQ(result, 0);
+}
+
+TEST_F(DeviceRealPushTest, DVRPushVehicleDetect)
+{
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kVehicleDetected,
 		kUid, eventTime, kDVRType, kChannelID, kChannelName);
 	EXPECT_EQ(result, 0);
 }
