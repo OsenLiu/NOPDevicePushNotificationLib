@@ -11,7 +11,7 @@
 namespace
 {
 	const std::string kStandaloneName = "Nightowl-IPC";
-	const std::string kUid = "F3KA852CUZ74UGPGY1D1";
+	const std::string kUid = "7YZVZA1KRKNS1BD9111A";
 	const std::string kStandaloneDeviceType = "standaloneIpCamera";
 	const std::string kHost = "push-staging.kalay.us";
 } //namespace
@@ -24,6 +24,7 @@ protected:
 		_logger = std::make_shared<nightowl::NOP::PrintfLogger>();
 		_sender = std::make_shared<nightowl::NOP::CurlSender>();
 		_pusher = std::make_unique<nightowl::NOP_Push_Notification::PushNotification>(_sender, _logger);
+		_pusher->setPushHost(kHost);
 	}
 
 	void TearDown() override
@@ -88,6 +89,14 @@ TEST_F(StandaloneRealPushTest, upgradeFail)
 {
 	auto eventTime = static_cast<long int>(std::time(nullptr));
 	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kUpgradeFail,
+		kUid, eventTime, kStandaloneDeviceType);
+	EXPECT_EQ(result, 0);
+}
+
+TEST_F(StandaloneRealPushTest, StandalonePushRing)
+{
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDoorbellRing,
 		kUid, eventTime, kStandaloneDeviceType);
 	EXPECT_EQ(result, 0);
 }

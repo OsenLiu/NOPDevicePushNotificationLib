@@ -16,8 +16,12 @@ if(ENABLE_TEST)
 message(STATUS "All Tests are enabled")
 set(BUILD_CURL TRUE)
 include(CTest)
-add_subdirectory ("test")
 endif(ENABLE_TEST)
+
 if(BUILD_CURL)
 add_subdirectory ("curl")
 endif(BUILD_CURL)
+
+if(ENABLE_TEST)
+add_subdirectory ("test")
+endif(ENABLE_TEST)

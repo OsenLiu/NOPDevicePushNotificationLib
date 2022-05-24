@@ -15,14 +15,15 @@
 
 namespace
 {
-const std::string kDVRName = "Nightowl-DVR";
-const std::string kUid = "FFUU9X3WK1R48G6GY1RJ";
-const std::string kDVRType = "videoRecorder";
-const std::string kChannelName = "test ch1";
-const std::string kHost = "push-staging.kalay.us";
-const int kChannelID = 1;
-const std::string kImagePath = "test.png";
-const std::string kUploadURLKey = "url";
+	const std::string kDVRName = "Nightowl-DVR";
+	const std::string kUid = "FBYA911MYHRCAG6GU1DJ";
+	const std::string kDVRType = "networkVideoRecorder";
+	const std::string kChannelName = "test ch1";
+	const std::string kHost = "push-staging.kalay.us";
+	const int kChannelID = 1;
+	const std::string kImagePath = "test.png";
+	const std::string kUploadURLKey = "url";
+	const std::string kStageUploadServer = "asia-upload-tutk-stg.kalay.us";
 } //namespace
 
 class DeviceRealPushTest : public testing::Test
@@ -33,6 +34,7 @@ protected:
 		_logger = std::make_shared<nightowl::NOP::PrintfLogger>();
 		_sender = std::make_shared<nightowl::NOP::CurlSender>();
 		_pusher = std::make_unique<nightowl::NOP_Push_Notification::PushNotification>(_sender, _logger);
+		_pusher->setPushHost(kHost);
 	}
 
 	void TearDown() override
@@ -55,7 +57,7 @@ TEST_F(DeviceRealPushTest, DVRPushMotion)
 TEST_F(DeviceRealPushTest, DVRPushHuman)
 {
 	auto eventTime = static_cast<long int>(std::time(nullptr));
-	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRHuman, 
+	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRHuman,
 		kUid, eventTime, kDVRType, kChannelID, kChannelName);
 	EXPECT_EQ(result, 0);
 }
@@ -105,8 +107,32 @@ TEST_F(DeviceRealPushTest, pushWithStageHost)
 {
 	_pusher->setPushHost(kHost);
 	auto eventTime = static_cast<long int>(std::time(nullptr));
-	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRMotion,
+	auto result = _pusher->sendPushNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRFaceDetect,
 		kUid, eventTime, kDVRType, kChannelID, kChannelName);
+	EXPECT_EQ(result, 0);
+}
+
+TEST_F(DeviceRealPushTest, pushImageWithStageHost)
+{
+	_pusher->setPushHost(kHost);
+	struct stat buffer;
+	bool isFileExisted = false;
+	if (stat(kImagePath.c_str(), &buffer) == 0) {
+		isFileExisted = true;
+	}
+	ASSERT_TRUE(isFileExisted);
+	auto sender = std::make_shared<nightowl::NOP::CurlSender>();
+	auto uploader = std::make_unique<nightowl::NOP_upload_image::UploadImage>(sender);
+	uploader->setPushHost(kStageUploadServer);
+	auto response = uploader->upload(kUid, kImagePath);
+	auto json = nlohmann::json::parse(response.text);
+	auto url = json.value(kUploadURLKey, "");
+	ASSERT_EQ(response.responseCode, 200);
+	ASSERT_FALSE(url.empty());
+	printf("image URL: %s", url.c_str());
+	auto eventTime = static_cast<long int>(std::time(nullptr));
+	auto result = _pusher->sendPushImageNotication(nightowl::NOP_Push_Notification::PushNotification::EventKey::kDVRHuman,
+		kUid, eventTime, kDVRType, kChannelID, kChannelName, url);
 	EXPECT_EQ(result, 0);
 }
 
@@ -180,3 +206,4 @@ TEST_F(DeviceRealPushTest, DVRPushVehicleDetect)
 		kUid, eventTime, kDVRType, kChannelID, kChannelName);
 	EXPECT_EQ(result, 0);
 }
+

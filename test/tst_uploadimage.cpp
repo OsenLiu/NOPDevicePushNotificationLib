@@ -5,6 +5,7 @@
 #include <curlsender.h>
 
 #include "mockihttpsender.h"
+#include <thread>
 
 namespace
 {
@@ -58,4 +59,17 @@ TEST(UploadImageTest, uploadImageToStage)
 	auto response = uploader->upload(kUid, kImagePath);
 	printf("image URL: %s\n", response.text.c_str());
 	EXPECT_EQ(response.responseCode, 200);
+}
+
+TEST(UploadImageTest, uploadTwentyImage)
+{
+	auto sender = std::make_shared<nightowl::NOP::CurlSender>();
+	auto uploader = std::make_unique<nightowl::NOP_upload_image::UploadImage>(sender);
+	for (auto i = 0; i < 10; ++i) {
+		auto response = uploader->upload(kUid, kImagePath);
+		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+		printf("image URL: %s\n", response.text.c_str());
+		EXPECT_EQ(response.responseCode, 200);
+	}
+	
 }
