@@ -16,7 +16,7 @@
 namespace
 {
 	const std::string kDVRName = "Nightowl-DVR";
-	const std::string kUid = "FBYA911MYHRCAG6GU1DJ";
+	const std::string kUid = "FFUU9X3WK1R48G6GY1RJ";
 	const std::string kDVRType = "networkVideoRecorder";
 	const std::string kChannelName = "test ch1";
 	const std::string kHost = "push-staging.kalay.us";
@@ -34,7 +34,7 @@ protected:
 		_logger = std::make_shared<nightowl::NOP::PrintfLogger>();
 		_sender = std::make_shared<nightowl::NOP::CurlSender>();
 		_pusher = std::make_unique<nightowl::NOP_Push_Notification::PushNotification>(_sender, _logger);
-		_pusher->setPushHost(kHost);
+		//_pusher->setPushHost(kHost);
 	}
 
 	void TearDown() override
@@ -206,4 +206,3 @@ TEST_F(DeviceRealPushTest, DVRPushVehicleDetect)
 		kUid, eventTime, kDVRType, kChannelID, kChannelName);
 	EXPECT_EQ(result, 0);
 }
-
